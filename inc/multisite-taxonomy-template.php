@@ -25,6 +25,7 @@
  *     @type bool   $echo                 Whether to echo the generated markup. False to return the markup instead
  *                                        of echoing it. Default true.
  * }
+ * @return string                         List of checkboxes.
  */
 function multisite_terms_checklist( $post_id = 0, $args = array() ) {
 	$defaults = array(
@@ -33,7 +34,7 @@ function multisite_terms_checklist( $post_id = 0, $args = array() ) {
 		'popular_terms'        => false,
 		'selected_terms'       => false,
 		'walker'               => null,
-		'checked_ontop'        => true,
+		'checked_ontop'        => false, // some terms can only be identified via their parents.
 		'echo'                 => true,
 		'blog_id'              => get_current_blog_id(),
 	);

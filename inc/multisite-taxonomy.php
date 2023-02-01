@@ -1445,7 +1445,7 @@ function delete_multisite_term( $multisite_term, $multisite_taxonomy, $args = ar
 		$multisite_terms = get_object_multisite_terms(
 			$object_id,
 			$multisite_taxonomy,
-			$blog_id,
+			0,
 			array(
 				'fields'  => 'ids',
 				'orderby' => 'none',
@@ -3563,13 +3563,14 @@ function create_multisite_term( $multisite_term_name, $multisite_taxonomy ) {
  * @since 3.1.0
  */
 function ajax_add_multisite_hierarchical_term() {
-	check_ajax_referer( 'add-multisite-' . $taxonomy->name, '_ajax_nonce-add-' . $taxonomy->name );
 	if ( isset( $_POST['action'] ) ) {
 		$action = sanitize_key( wp_unslash( $_POST['action'] ) );
 	}
 
 	$tax      = str_replace( 'add-multisite-hierarchical-term-', '', $action );
 	$taxonomy = get_multisite_taxonomy( $tax );
+
+	check_ajax_referer( 'add-multisite-' . $taxonomy->name, '_ajax_nonce-add-' . $taxonomy->name );
 
 	if ( ! current_user_can( $taxonomy->cap->edit_multisite_terms ) ) {
 		wp_die( -1 );

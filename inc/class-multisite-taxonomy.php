@@ -179,6 +179,17 @@ class Multisite_Taxonomy {
 	public function __construct( $multisite_taxonomy, $object_type, $args = array() ) {
 		$this->name = $multisite_taxonomy;
 
+		$has_special_object_type = count( array_intersect( (array) $object_type, array( 'user', 'blog' ) ) );
+		if ( $has_special_object_type && count( (array) $object_type ) > 1 ) {
+			/**
+			 * This will probably only happen to developers if they try using multiple object-types.
+			 * We can currently not distinguish between the user/blog with the id 1 and the post with the id 1.
+			 */
+			wp_die(
+				'Sorry. Different object types (containing "user" or "blog") in the same multisite-taxonomy are currently not supported.'
+			);
+		}
+
 		$this->set_props( $object_type, $args );
 
 		// callback for adding a MS term.
